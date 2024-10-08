@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Hero from "../../hero.svg";
+import Hero from "@/public/hero.svg";
 import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import {
@@ -23,7 +23,7 @@ export default function Home() {
         <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
           Learn, practice, and master new languages with LingoQuest.
         </h1>
-        <div className="">
+        <div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">
           <ClerkLoading>
             <Loader className="size-5 animate-spin text-muted-foreground" />
           </ClerkLoading>

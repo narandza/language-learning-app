@@ -1,6 +1,6 @@
 "use client";
 import { ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
-import Mascot from "../../mascot.svg";
+import Mascot from "@/public/mascot.svg";
 import Image from "next/image";
 import { Loader } from "lucide-react";
 import {
