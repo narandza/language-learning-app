@@ -4,9 +4,10 @@ import Image from "next/image";
 import PointsIcon from "@/public/points.svg";
 import HeartIcon from "@/public/heart.svg";
 import { InfinityIcon } from "lucide-react";
+import { courses } from "@/db/schema";
 
 type Props = {
-  activeCourse: { imageSrc: string; title: string }; // TODO: Replace with DB types
+  activeCourse: typeof courses.$inferInsert;
   hearts: number;
   points: number;
   hasActiveSubscription: boolean;
