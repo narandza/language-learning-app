@@ -41,3 +41,10 @@ export const getCourses = cache(async () => {
 
   return data;
 });
+
+export const getCourseById = cache(async (courseId: number) => {
+  const data = await db.select().from(courses).where(eq(courses.id, courseId));
+  // TODO: Populate units and lessons
+
+  return data;
+});
