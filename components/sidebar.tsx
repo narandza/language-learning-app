@@ -46,7 +46,7 @@ export const Sidebar = ({ className }: Props) => {
           <Loader className="size-5 animate-spin text-muted-foreground" />
         </ClerkLoading>
         <ClerkLoaded>
-          <UserButton></UserButton>
+          <UserButton />
         </ClerkLoaded>
       </div>
     </div>
