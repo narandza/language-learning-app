@@ -28,7 +28,7 @@ export const Quiz = ({
     <>
       <Header
         hearts={hearts}
-        percentage={50 || percentage}
+        percentage={percentage}
         // hasActiveSubscription={!!userSubscription?.isActive}
       />
     </>
