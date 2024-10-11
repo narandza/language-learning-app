@@ -1,5 +1,6 @@
 import { challengeOptions, challenges } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { Card } from "./card";
 
 type Props = {
   options: (typeof challengeOptions.$inferSelect)[];
@@ -28,9 +29,19 @@ export const Challenge = ({
       )}
     >
       {options.map((option, index) => (
-        <div key={option.id} className="">
-          {/* TODO: Add Card component */}
-        </div>
+        <Card
+          key={option.id}
+          id={option.id}
+          text={option.text}
+          imageSrc={option.imageSrc || ""}
+          shortcut={`${index + 1}`}
+          selected={selectedOption === option.id}
+          onClick={() => onSelect(option.id)}
+          status={status}
+          audioSrc={option.audioSrc || ""}
+          disabled={disabled || false}
+          type={type}
+        />
       ))}
     </div>
   );
