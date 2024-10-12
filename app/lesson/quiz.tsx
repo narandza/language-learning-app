@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { challengeOptions, challenges } from "@/db/schema";
@@ -9,6 +10,7 @@ import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
 import { reduceHearts } from "@/actions/user-progress";
+import { useAudio } from "react-use";
 
 type Props = {
   initialLessonId: number;
@@ -28,6 +30,11 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
+  const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: "/incorrect.wav",
+  });
+  const [finishAudio, _f, finishControls] = useAudio({ src: "/finish.mp3" });
   const [pending, startTransition] = useTransition();
 
   const [hearts, setHearts] = useState(initialHearts);
@@ -86,7 +93,7 @@ export const Quiz = ({
               console.error("Missing hearts");
               return;
             }
-
+            correctControls.play();
             setStatus("correct");
             setPercentage((prev) => prev + 100 / challenges.length);
 
@@ -106,7 +113,7 @@ export const Quiz = ({
               console.error("Missing hearts");
               return;
             }
-
+            incorrectControls.play();
             setStatus("wrong");
 
             if (!response?.error) {
@@ -127,6 +134,9 @@ export const Quiz = ({
 
   return (
     <>
+      {incorrectAudio}
+      {correctAudio}
+      {finishAudio}
       <Header
         hearts={hearts}
         percentage={percentage}
