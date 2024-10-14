@@ -26,6 +26,10 @@ export const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
     });
   };
 
+  const onUpgrade = () => {
+    startTransition(() => {});
+  };
+
   return (
     <ul className="w-full">
       <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
@@ -56,7 +60,7 @@ export const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
             Unlimited hearts
           </p>
         </div>
-        <Button disabled={hasActiveSubscription}>
+        <Button onClick={onUpgrade} disabled={hasActiveSubscription || pending}>
           {hasActiveSubscription ? "active" : "upgrade"}
         </Button>
       </div>
