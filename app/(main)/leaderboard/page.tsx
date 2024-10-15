@@ -8,6 +8,8 @@ import {
 } from "@/db/queries";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 const LeaderboardPage = async () => {
   const userProgressData = getUserProgress();
@@ -50,9 +52,23 @@ const LeaderboardPage = async () => {
           <p className="text-muted-foreground text-center text-lg mb-6">
             See where you stand among other learners in the community.
           </p>
+          <Separator className="mb-4 h-0.5 rounded-full" />
           {leaderboard.map((userProgress, index) => (
-            <div className="" key={userProgress.userId}>
-              {userProgress.userName}
+            <div
+              className="flex items-center w-full p-2 px-4 rounded-xl hover:bg-gray-200/50"
+              key={userProgress.userId}
+            >
+              <p className="font-bold text-lime-700 mr-4">{index + 1}</p>
+              <Avatar className="border bg-green-500 size-12 ml-3 mr-6">
+                <AvatarImage
+                  src={userProgress.userImageSrc}
+                  className="object-cover"
+                />
+              </Avatar>
+              <p className="font-bold text-neutral-800 flex-1">
+                {userProgress.userName}
+              </p>
+              <p className="text-muted-foreground">{userProgress.points} XP</p>
             </div>
           ))}
         </div>
