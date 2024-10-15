@@ -1,6 +1,6 @@
 "use client";
 
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { useState, useTransition } from "react";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
@@ -25,7 +25,11 @@ type Props = {
   })[];
   initialHearts: number;
   initialPercentage: number;
-  userSubscription: undefined; // TODO: Replace with subscription DB type
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 };
 
 export const Quiz = ({
@@ -74,7 +78,27 @@ export const Quiz = ({
   const [status, setStatus] = useState<"none" | "correct" | "wrong">("none");
 
   const challenge = challenges[activeIndex];
+
   const options = challenge?.challengeOptions;
+
+  const filteredOptions = options
+    .filter(
+      (
+        option
+      ): option is {
+        id: number;
+        imageSrc: string | null;
+        challengeId: number;
+        text: string;
+        correct: boolean;
+        audioSrc: string | null;
+      } => option.id !== undefined
+    )
+    .map((option) => ({
+      ...option,
+      imageSrc: option.imageSrc ?? null,
+      audioSrc: option.audioSrc ?? null, // Convert undefined to null
+    }));
 
   const onNext = () => {
     setActiveIndex((current) => current + 1);
@@ -208,7 +232,7 @@ export const Quiz = ({
       <Header
         hearts={hearts}
         percentage={percentage}
-        // hasActiveSubscription={!!userSubscription?.isActive}
+        hasActiveSubscription={!!userSubscription?.isActive}
       />
       <div className="flex-1">
         <div className="h-full flex items-center justify-center">
@@ -221,7 +245,7 @@ export const Quiz = ({
                 <QuestionBubble question={challenge.question} />
               )}
               <Challenge
-                options={options}
+                options={filteredOptions}
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
