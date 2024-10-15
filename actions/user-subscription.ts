@@ -4,6 +4,7 @@ import { getUserSubscription } from "@/db/queries";
 import { stripe } from "@/lib/stirpe";
 import { absoluteUrl } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 const returnUrl = absoluteUrl("/shop");
 
@@ -53,6 +54,8 @@ export const createStripeUrl = async () => {
     success_url: returnUrl,
     cancel_url: returnUrl,
   });
+
+  revalidatePath("/shop");
 
   return { data: stripeSession.url };
 };
