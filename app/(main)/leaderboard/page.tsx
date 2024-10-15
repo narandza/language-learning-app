@@ -1,17 +1,23 @@
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
-import { getUserProgress, getUserSubscription } from "@/db/queries";
+import {
+  getTopTenUsers,
+  getUserProgress,
+  getUserSubscription,
+} from "@/db/queries";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 const LeaderboardPage = async () => {
   const userProgressData = getUserProgress();
   const userSubscriptionData = getUserSubscription();
+  const leaderboardData = getTopTenUsers();
 
-  const [userProgress, userSubscription] = await Promise.all([
+  const [userProgress, userSubscription, leaderboard] = await Promise.all([
     userProgressData,
     userSubscriptionData,
+    leaderboardData,
   ]);
 
   const isPro = !!userSubscription?.isActive;
@@ -44,7 +50,11 @@ const LeaderboardPage = async () => {
           <p className="text-muted-foreground text-center text-lg mb-6">
             See where you stand among other learners in the community.
           </p>
-          {/* TODO: Add User List */}
+          {leaderboard.map((userProgress, index) => (
+            <div className="" key={userProgress.userId}>
+              {userProgress.userName}
+            </div>
+          ))}
         </div>
       </FeedWrapper>
     </div>
