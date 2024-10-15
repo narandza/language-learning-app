@@ -81,24 +81,12 @@ export const Quiz = ({
 
   const options = challenge?.challengeOptions;
 
-  const filteredOptions = options
-    .filter(
-      (
-        option
-      ): option is {
-        id: number;
-        imageSrc: string | null;
-        challengeId: number;
-        text: string;
-        correct: boolean;
-        audioSrc: string | null;
-      } => option.id !== undefined
-    )
-    .map((option) => ({
-      ...option,
-      imageSrc: option.imageSrc ?? null,
-      audioSrc: option.audioSrc ?? null, // Convert undefined to null
-    }));
+  const processedOptions = options.map((option) => ({
+    ...option,
+    id: option.id ?? -1,
+    imageSrc: option.imageSrc ?? null,
+    audioSrc: option.audioSrc ?? null,
+  }));
 
   const onNext = () => {
     setActiveIndex((current) => current + 1);
@@ -245,7 +233,7 @@ export const Quiz = ({
                 <QuestionBubble question={challenge.question} />
               )}
               <Challenge
-                options={filteredOptions}
+                options={processedOptions}
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
