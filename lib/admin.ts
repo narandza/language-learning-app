@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 
 const adminIds = ["user_2n6y2SOzwgnE88q4LlXLabCMWhH"];
 
-export const getIsAdmin = async () => {
+export const isAdmin = () => {
   const { userId } = auth();
 
   if (!userId) {
